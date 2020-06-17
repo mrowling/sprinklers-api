@@ -1,7 +1,6 @@
 import json
 import falcon
 from .config import CONFIG
-from .images import Resource
 from .sprinkler import Sprinkler
 
 class Sprinklers(object):
@@ -27,7 +26,6 @@ class SprinklersResource(object):
             "name": name,
         }
         self.sprinklers.trigger_by_name(name)
-        # print(self.sprinklers.items.get("sw"))
         resp.body = json.dumps(doc, ensure_ascii=False)
         resp.status =  falcon.HTTP_200
 
