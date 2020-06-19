@@ -1,5 +1,4 @@
+from .app import application
 import debugpy
 debugpy.listen(5678)
 debugpy.wait_for_client()
-
-from .app import application
