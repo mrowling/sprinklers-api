@@ -1,3 +1,4 @@
+from .config import CONFIG
 try:
     import RPi.GPIO as gpio
 except RuntimeError:
@@ -5,4 +6,6 @@ except RuntimeError:
         This is probably because you need superuser privileges. \
         You can achieve this by using 'sudo' to run your script")
 
-gpio.setmode(gpio.BOARD)
+setmode = CONFIG.get('gpio').get('setmode')
+setmode = getattr(gpio, setmode)
+gpio.setmode(setmode)
