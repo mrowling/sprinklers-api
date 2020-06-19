@@ -1,8 +1,8 @@
 import json
-import falcon
-from multiprocessing import Process, Value
-
 from time import sleep
+from multiprocessing import Process, Value
+import falcon
+
 from .relay import Relay
 
 
@@ -64,11 +64,11 @@ class SprinklerCollection():
         return self._find_by_name(name).trigger()
 
 
-class SprinklerResource():
+class SprinklerResource():  # pylint: disable=too-few-public-methods
     def __init__(self, sprinklers: SprinklerCollection):
         self.sprinklers = sprinklers
 
-    def on_get(self, req, resp, name):
+    def on_get(self, req, resp, name):  # pylint: disable=unused-argument
         doc = {
             "name": name,
         }
