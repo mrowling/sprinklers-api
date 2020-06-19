@@ -5,7 +5,7 @@ from .config import CONFIG
 from .sprinkler import SprinklerResource, SprinklerCollection
 
 
-cors = CORS(allow_origins_list=['*'])
+cors = CORS(allow_all_origins=True)
 api = application = falcon.API(middleware=[cors.middleware])
 
 sprinklers = SprinklerResource(SprinklerCollection(CONFIG.get("sprinklers")))
