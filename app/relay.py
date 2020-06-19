@@ -1,17 +1,10 @@
-try:
-    import RPi.GPIO as gpio
-except RuntimeError:
-    print("Error importing RPi.GPIO!  \
-        This is probably because you need superuser privileges. \
-        You can achieve this by using 'sudo' to run your script")
-
-gpio.setmode(gpio.BOARD)
+from .gpio import gpio
 
 
 class Relay():
-    def __init__(self, output_channel):
-        self.output_channel = output_channel
-        gpio.setup(output_channel, gpio.OUT)
+    def __init__(self, channel):
+        self.channel = channel
+        gpio.setup(channel, gpio.OUT)
 
     def on(self):
         self._set_state(True)
@@ -24,7 +17,7 @@ class Relay():
 
     @property
     def state(self):
-        return gpio.input(self.output_channel)
+        return gpio.input(self.channel)
 
     def _set_state(self, state):
-        gpio.output(self.output_channel, state)
+        gpio.output(self.channel, state)

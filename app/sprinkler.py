@@ -4,12 +4,13 @@ from multiprocessing import Process, Value
 import falcon
 
 from .relay import Relay
+from .input import Input
 
 
 class Sprinkler():
     def __init__(self, output_channel, input_channel):
         self.relay = Relay(output_channel)
-        self.input = Relay(input_channel)
+        self.input = Input(input_channel)
         self._triggering = False
         self._sleep_duration = 1
 
