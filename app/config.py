@@ -10,7 +10,7 @@ CONFIG = [{
     "name": "MiddleWest",
     "short_name": "mw",
     "channel": 2
-},  {
+}, {
     "name": "MiddleEast",
     "short_name": "MEme",
     "channel": 2
