@@ -1,5 +1,6 @@
 import yaml
 
+
 def apply_defaults(config):
     pull_up_down = config.get('gpio', {}).get('pull_up_down', 'PUD_DOWN')
     setmode = config.get('gpio', {}).get('setmode', 'BOARD')
