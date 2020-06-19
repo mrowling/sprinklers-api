@@ -6,7 +6,7 @@ from time import sleep
 from .relay import Relay
 
 
-class Sprinkler(object):
+class Sprinkler():
     def __init__(self, channel):
         self.relay = Relay(channel)
         self._triggering = False
@@ -49,7 +49,7 @@ class Sprinkler(object):
         return self.relay.state
 
 
-class SprinklerCollection(object):
+class SprinklerCollection():
     def __init__(self, config):
         self.items = {}
         for c in config:
@@ -64,7 +64,7 @@ class SprinklerCollection(object):
         return self._find_by_name(name).trigger()
 
 
-class SprinklerResource(object):
+class SprinklerResource():
     def __init__(self, sprinklers: SprinklerCollection):
         self.sprinklers = sprinklers
 

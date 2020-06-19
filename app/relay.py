@@ -8,7 +8,7 @@ except RuntimeError:
 gpio.setmode(gpio.BOARD)
 
 
-class Relay(object):
+class Relay():
     def __init__(self, channel):
         self.channel = channel
         gpio.setup(channel, gpio.OUT)
