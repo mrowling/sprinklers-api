@@ -1,10 +1,10 @@
 import falcon
 from .config import CONFIG
-from .sprinkler import SprinklersResource, Sprinklers
+from .sprinkler import SprinklerResource, SprinklerCollection
 
 
             
 api = application = falcon.API()
 
-sprinklers = SprinklersResource(Sprinklers(CONFIG))
-api.add_route("/sprinklers/{name}", sprinklers)           
+sprinklers = SprinklerResource(SprinklerCollection(CONFIG))
+api.add_route("/sprinkler/{name}", sprinklers)           

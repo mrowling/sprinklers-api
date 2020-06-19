@@ -48,7 +48,7 @@ class Sprinkler(object):
     def running(self):
         return self.relay.state
 
-class Sprinklers(object):
+class SprinklerCollection(object):
     def __init__(self, config):
         self.items = {}
         for c in config:
@@ -62,8 +62,8 @@ class Sprinklers(object):
     def trigger_by_name(self, name):
         return self._find_by_name(name).trigger()
 
-class SprinklersResource(object):
-    def __init__(self, sprinklers: Sprinklers):
+class SprinklerResource(object):
+    def __init__(self, sprinklers: SprinklerCollection):
         self.sprinklers = sprinklers
     def on_get(self, req, resp, name):
         doc = {
