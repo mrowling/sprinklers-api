@@ -2,3 +2,4 @@ falcon==2.0.0
 falcon-cors==1.1.7
 RPi.GPIO==0.7.0
 pyyaml==5.3.1
+falcon-auth==1.1.0
