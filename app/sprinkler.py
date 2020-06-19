@@ -52,16 +52,16 @@ class Sprinkler():
 class SprinklerCollection():
     def __init__(self, config):
         self.items = {}
-        for c in config:
-            channel = c.get("channel")
-            short_name = c.get("short_name")
+        for _config in config:
+            channel = _config.get("channel")
+            short_name = _config.get("short_name")
             self.items[short_name] = Sprinkler(channel)
 
-    def _find_by_name(self, name):
+    def find_by_name(self, name):
         return self.items.get(name)
 
     def trigger_by_name(self, name):
-        return self._find_by_name(name).trigger()
+        return self.find_by_name(name).trigger()
 
 
 class SprinklerResource():  # pylint: disable=too-few-public-methods
