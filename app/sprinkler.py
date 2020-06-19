@@ -47,7 +47,7 @@ class Sprinkler():
 
     @property
     def running(self):
-        return self.input.state
+        return bool(self.input.state)
 
 
 class SprinklerCollection():
@@ -59,7 +59,7 @@ class SprinklerCollection():
             short_name = _config.get("short_name")
             self.items[short_name] = Sprinkler(output_channel, input_channel)
 
-    def find_by_name(self, name):
+    def find_by_name(self, name) -> Sprinkler:
         return self.items.get(name)
 
     def trigger_by_name(self, name):
@@ -71,9 +71,29 @@ class SprinklerResource():  # pylint: disable=too-few-public-methods
         self.sprinklers = sprinklers
 
     def on_get(self, req, resp, name):  # pylint: disable=unused-argument
+        sprinkler = self.sprinklers.find_by_name(name)
+        sprinkler.trigger()
         doc = {
             "name": name,
+            "running": sprinkler.running
         }
-        self.sprinklers.trigger_by_name(name)
         resp.body = json.dumps(doc, ensure_ascii=False)
         resp.status = falcon.HTTP_200
+
+    def on_put(self, req, resp, name):  # pylint: disable=unused-argument
+        try:
+            self.sprinklers.trigger_by_name(name)
+            doc = {
+                "name": name,
+                "success": True
+            }
+            resp.body = json.dumps(doc, ensure_ascii=False)
+            resp.status = falcon.HTTP_200
+        except Exception as error:  # pylint: disable=broad-except
+            doc = {
+                "name": name,
+                "success": False,
+                "message": str(error)
+            }
+            resp.body = json.dumps(doc, ensure_ascii=False)
+            resp.status = falcon.HTTP_200
