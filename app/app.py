@@ -25,5 +25,3 @@ api.add_route("/pump", pump_resource)
 sprinkler = SprinklerCollection(CONFIG.get("sprinklers"), pump)
 sprinkler_resource = SprinklerResource(sprinkler)
 api.add_route("/sprinkler/{name}", sprinkler_resource)
-
-
