@@ -4,6 +4,7 @@ from multiprocessing import Process, Value
 import falcon
 
 from .relay import Relay
+from .pump import Pump
 
 
 class Sprinkler():
@@ -50,7 +51,8 @@ class Sprinkler():
 
 
 class SprinklerCollection():
-    def __init__(self, config):
+    def __init__(self, config, pump: Pump):
+        self.pump = pump
         self.items = {}
         for _config in config:
             channel = _config.get("channel")
@@ -61,7 +63,10 @@ class SprinklerCollection():
         return self.items.get(name)
 
     def trigger_by_name(self, name):
-        return self.find_by_name(name).trigger()
+        if not self.pump.safe_to_trigger(name):
+            raise Exception("Not safe to trigger")
+        self.find_by_name(name).trigger()
+        self.pump.set_running(name)
 
 
 class SprinklerResource():  # pylint: disable=too-few-public-methods
