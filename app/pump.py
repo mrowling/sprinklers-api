@@ -13,6 +13,7 @@ class Pump(Input):
         self.running_sprinkler_name = None
         self.increments = 0
         super().__init__(channel)
+        self._register_event_detect(self.clear_running)
 
     @property
     def running(self):

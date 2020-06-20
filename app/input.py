@@ -13,3 +13,10 @@ class Input():  # pylint: disable=too-few-public-methods
     @property
     def state(self):
         return bool(gpio.input(self.channel))
+
+    def _register_event_detect(self, callback):
+        gpio.add_event_detect(
+            self.channel,
+            gpio.FALLING,
+            callback=callback,
+            bouncetime=200)
