@@ -8,9 +8,8 @@ from .input import Input
 
 
 class Sprinkler():
-    def __init__(self, output_channel, input_channel):
-        self.relay = Relay(output_channel)
-        self.input = Input(input_channel)
+    def __init__(self, channel):
+        self.relay = Relay(channel)
         self._triggering = False
         self._sleep_duration = 1
 
@@ -48,17 +47,16 @@ class Sprinkler():
 
     @property
     def running(self):
-        return bool(self.input.state)
+        return bool(self.relay.state)
 
 
 class SprinklerCollection():
     def __init__(self, config):
         self.items = {}
         for _config in config:
-            output_channel = _config.get("output_channel")
-            input_channel = _config.get("input_channel")
+            channel = _config.get("channel")
             short_name = _config.get("short_name")
-            self.items[short_name] = Sprinkler(output_channel, input_channel)
+            self.items[short_name] = Sprinkler(channel)
 
     def find_by_name(self, name) -> Sprinkler:
         return self.items.get(name)
