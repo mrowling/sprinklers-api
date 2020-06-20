@@ -1,7 +1,9 @@
+import atexit
 import falcon
 from falcon_cors import CORS
 
 from .config import CONFIG
+from .gpio import gpio
 from .auth import auth_middleware
 from .sprinkler import SprinklerResource, SprinklerCollection
 from .pump import PumpResource, Pump
@@ -25,3 +27,9 @@ api.add_route("/pump", pump_resource)
 sprinkler = SprinklerCollection(CONFIG.get("sprinklers"), pump)
 sprinkler_resource = SprinklerResource(sprinkler)
 api.add_route("/sprinkler/{name}", sprinkler_resource)
+
+
+@atexit.register
+def cleanup():
+    gpio.cleanup()
+    print("Cleanup Complete")
