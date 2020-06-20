@@ -4,7 +4,6 @@ from multiprocessing import Process, Value
 import falcon
 
 from .relay import Relay
-from .input import Input
 
 
 class Sprinkler():
