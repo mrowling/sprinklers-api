@@ -12,4 +12,4 @@ class Input():  # pylint: disable=too-few-public-methods
 
     @property
     def state(self):
-        return gpio.input(self.channel)
+        return bool(gpio.input(self.channel))
