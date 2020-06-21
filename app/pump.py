@@ -24,10 +24,8 @@ class Pump(Input):
             now = datetime.now()
             if self.estimated_end_time > now:
                 return True
-            time_diff = now - self.estimated_end_time
-            if time_diff.seconds > 10:
-                self.clear_running()
-                return self.running
+            self.clear_running()
+            return self.running
         return False
 
     def safe_to_trigger(self, name):
