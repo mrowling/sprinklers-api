@@ -28,7 +28,6 @@ services:
       - 80:80 #optional
     restart: unless-stopped
   sdhc-sprinklers-api:
-    image: sdhc-sprinklers-api
     build: .
     container_name: sdhc-sprinklers-api
     volumes:
