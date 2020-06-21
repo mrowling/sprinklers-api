@@ -64,7 +64,8 @@ class PumpResource():  # pylint: disable=too-few-public-methods
         doc = {
             "running": self.pump.running,
             "running_sprinkler_name": self.pump.running_sprinkler_name,
-            "estimated_end_time": estimated_end_time
+            "estimated_end_time": estimated_end_time,
+            "increment_count": self.pump.increments
         }
         resp.body = json.dumps(doc, ensure_ascii=False)
         resp.status = falcon.HTTP_200
