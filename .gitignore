@@ -139,3 +139,7 @@ cython_debug/
 
 .vscode
 config.yaml
+
+# LetsEncrypt DockerImage Config
+nginx-config/
+!nginx-config/nginx/site-confs/

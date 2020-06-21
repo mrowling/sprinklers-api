@@ -1,0 +1,37 @@
+---
+version: "2.1"
+services:
+  letsencrypt:
+    image: linuxserver/letsencrypt
+    container_name: letsencrypt
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Australia/Sydney
+      - URL=erinandmitchell.com
+      - SUBDOMAINS=home,
+      - VALIDATION=http
+      # - DNSPLUGIN=cloudflare #optional
+      # - PROPAGATION= #optional
+      # - DUCKDNSTOKEN= #optional
+      # - EMAIL= #optional
+      # - ONLY_SUBDOMAINS=false #optional
+      - ONLY_SUBDOMAINS=true #optional
+      # - EXTRA_DOMAINS= #optional
+      # - STAGING=false #optional
+    volumes:
+      - ./nginx-config:/config
+    ports:
+      - 443:443
+      - 80:80 #optional
+    restart: unless-stopped
+  sdhc-sprinklers-api:
+    image: sdhc-sprinklers-api
+    build: .
+    container_name: sdhc-sprinklers-api
+    volumes:
+      - ./:/usr/src/app
+    ports:
+      - 8000:8000
