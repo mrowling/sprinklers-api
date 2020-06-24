@@ -16,13 +16,13 @@ class PowerResource():  # pylint: disable=too-few-public-methods
 
     def on_put(self, req, resp):  # pylint: disable=unused-argument
         try:
-            if req.media.get("on"): 
+            if req.media.get("active"):
                 self.relay.on()
             else:
                 self.relay.off()
             doc = {
                 "success": True,
-                "on": bool(self.relay.state)
+                "active": bool(self.relay.state)
             }
             resp.body = json.dumps(doc, ensure_ascii=False)
             resp.status = falcon.HTTP_200
@@ -30,7 +30,7 @@ class PowerResource():  # pylint: disable=too-few-public-methods
             doc = {
                 "success": False,
                 "message": str(error),
-                "on": bool(self.relay.state)
+                "active": bool(self.relay.state)
             }
             resp.body = json.dumps(doc, ensure_ascii=False)
             resp.status = falcon.HTTP_200
