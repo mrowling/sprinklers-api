@@ -3,9 +3,12 @@ import falcon
 
 from .relay import Relay
 
+from .pump import Pump
+
 class PowerResource():  # pylint: disable=too-few-public-methods
-    def __init__(self, relay: Relay):
+    def __init__(self, relay: Relay, pump: Pump):
         self.relay = relay
+        self.pump = pump
 
     def on_get(self, req, resp):  # pylint: disable=unused-argument
         doc = {
@@ -20,6 +23,7 @@ class PowerResource():  # pylint: disable=too-few-public-methods
                 self.relay.on()
             else:
                 self.relay.off()
+                self.pump.clear_running()
             doc = {
                 "success": True,
                 "active": bool(self.relay.state)

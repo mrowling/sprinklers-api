@@ -31,7 +31,7 @@ sprinkler_resource = SprinklerResource(sprinkler)
 api.add_route("/sprinkler/{name}", sprinkler_resource)
 
 power = Relay(CONFIG.get("power").get("channel"))
-power_resource = PowerResource(power)
+power_resource = PowerResource(power, pump)
 api.add_route("/power", power_resource)
 
 
