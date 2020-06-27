@@ -1,0 +1,35 @@
+gpio:
+  pull_up_down: PUD_DOWN
+  setmode: BOARD
+auth:
+  auth0_domain: sdhc.au.auth0.com
+  api_audience: T9V1SyVCcWGu8Z42UuFfFp7dPsGWGjfJ
+  algorithms:
+  - RS256
+pump:
+  channel: 1
+power:
+  input:
+    channel: 1
+  output: 
+    channel: 1
+sprinklers:
+- name: NorthWest
+  channel: 1
+  short_name: nw
+- name: NorthEast
+  channel: 2
+  short_name: ne
+- name: MiddleWest
+  channel: 2
+  short_name: mw
+- name: MiddleEast
+  channel: 2
+  short_name: MEme
+- name: SouthWest
+  channel: 2
+  short_name: sw
+- name: SouthEast
+  channel: 2
+  short_name: sw
+
