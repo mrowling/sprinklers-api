@@ -28,7 +28,8 @@ services:
       - 80:80 #optional
     restart: unless-stopped
   sdhc-sprinklers-api:
-    build: .
+    image: sdhc-sprinklers-api:latest
+    privileged: true
     container_name: sdhc-sprinklers-api
     volumes:
       - ./:/usr/src/app
