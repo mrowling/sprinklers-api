@@ -13,7 +13,6 @@ class SequenceResource():  # pylint: disable=too-few-public-methods
             self.power.pulse(11)
             doc = {
                 "success": True,
-                "active": bool(self.power.state)
             }
             resp.body = json.dumps(doc, ensure_ascii=False)
             resp.status = falcon.HTTP_200
@@ -21,7 +20,6 @@ class SequenceResource():  # pylint: disable=too-few-public-methods
             doc = {
                 "success": False,
                 "message": str(error),
-                "active": bool(self.power.state)
             }
             resp.body = json.dumps(doc, ensure_ascii=False)
             resp.status = falcon.HTTP_200
