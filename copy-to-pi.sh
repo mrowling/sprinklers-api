@@ -1,3 +1,8 @@
 #!/usr/bin/env bash
-rsync -azP --exclude '.git' --exclude-from='.gitignore' "$(pwd)" pi@10.0.0.15:/home/pi/Code
-rsync -azP "$(pwd)/config.yaml"  pi@10.0.0.15:/home/pi/Code/sdhc-sprinklers-api/config.yaml
+SRC="$(pwd)"
+DST="pi@10.0.0.15:/home/pi/Code"
+
+rsync -ah \
+    --exclude-from="$(git -C $SRC ls-files --exclude-standard -oi --directory > .git/ignores.tmp && echo .git/ignores.tmp)" \
+    $SRC \
+    $DST 
