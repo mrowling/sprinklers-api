@@ -1,23 +1,22 @@
+from smbus2 import SMBus
 from .gpio import gpio
+
+ON = 255
+OFF = 0
+DEVICE_BUS = 1
+bus = SMBus(DEVICE_BUS)
 
 
 class Relay():
-    def __init__(self, channel):
+    def __init__(self, device, channel):
+        self.device = device
         self.channel = channel
-        gpio.setup(channel, gpio.OUT)
 
     def on(self):
-        self._set_state(True)
+        self._set_state(ON)
 
     def off(self):
-        self._set_state(False)
-
-    def toggle(self):
-        self._set_state(not self.state)
-
-    @property
-    def state(self):
-        return gpio.input(self.channel)
+        self._set_state(OFF)
 
     def _set_state(self, state):
-        gpio.output(self.channel, state)
+        bus.write_byte_data(self.device, self.channel, state)
