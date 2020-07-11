@@ -71,16 +71,6 @@ class SprinklerResource():  # pylint: disable=too-few-public-methods
     def __init__(self, sprinklers: SprinklerCollection):
         self.sprinklers = sprinklers
 
-    def on_get(self, req, resp, name):  # pylint: disable=unused-argument
-        sprinkler = self.sprinklers.find_by_name(name)
-        sprinkler.trigger()
-        doc = {
-            "name": name,
-            "running": sprinkler.running
-        }
-        resp.body = json.dumps(doc, ensure_ascii=False)
-        resp.status = falcon.HTTP_200
-
     def on_put(self, req, resp, name):  # pylint: disable=unused-argument
         try:
             self.sprinklers.trigger_by_name(name)
