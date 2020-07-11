@@ -6,6 +6,7 @@ from .config import CONFIG
 from .gpio import gpio
 from .auth import auth_middleware
 from .sprinkler import SprinklerResource, SprinklerCollection
+from .sequence import SequenceResource
 from .pump import PumpResource, Pump
 from .relay import Relay
 from .input import Input
@@ -38,6 +39,9 @@ power_output = Relay(
 power = Power(power_input_channel, power_output)
 power_resource = PowerResource(power, pump)
 api.add_route("/power", power_resource)
+
+sequence_resource = SequenceResource(power)
+api.add_route("/sequence", sequence_resource)
 
 
 @atexit.register

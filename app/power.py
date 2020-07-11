@@ -1,6 +1,7 @@
 import json
 import falcon
 from time import sleep
+from threading import Thread
 
 from .relay import Relay
 from .input import Input
@@ -18,10 +19,17 @@ class Power(Input):
     def off(self):
         return self.output.off()
 
-    def pulse(self):
+    def _pulse(self, duration):
         self.output.on()
-        sleep(1)
+        sleep(duration)
         self.output.off()
+
+    def pulse(self, duration=1):
+        thread = Thread(
+            target=self._pulse,
+            args=(duration,)
+        )
+        thread.start()
 
 
 class PowerResource():  # pylint: disable=too-few-public-methods
