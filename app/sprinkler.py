@@ -1,51 +1,30 @@
 import json
-import sys
-from time import sleep
-from multiprocessing import Process, Value
-from threading import Thread, Lock
 
 import falcon
-import traceback
 
 from .relay import Relay
 from .pump import Pump
 
 
 class Sprinkler():
-    def __init__(self, device, channel):
-        self.relay = Relay(device, channel)
+    def __init__(self, device, channel, lock):
+        self.relay = Relay(device, channel, lock)
         self._triggering = False
-        self._sleep_duration = 1
 
-    def _trigger(self):
-        try:
-            self._triggering = True
-            self.relay.on()
-            sleep(self._sleep_duration)
-            self.relay.off()
-        finally:
-            self._triggering = False
-            sys.stdout.flush()
-
-    def trigger(self):
-        if not self._triggering:
-            thread = Thread(
-                target=self._trigger,
-            )
-            thread.start()
-        else:
-            raise Exception("Already triggering")
+    def trigger(self, duration=1):
+        self.relay.pulse(duration)
 
 
 class SprinklerCollection():
     def __init__(self, config, pump: Pump):
         self.pump = pump
         self.items = {}
+        self._lock = False
         for _config in config:
             channel = _config.get("channel")
             device = _config.get("device")
             short_name = _config.get("short_name")
-            self.items[short_name] = Sprinkler(device, channel)
+            self.items[short_name] = Sprinkler(device, channel, self._lock)
 
     def find_by_name(self, name) -> Sprinkler:
         return self.items.get(name)
