@@ -31,9 +31,9 @@ sprinkler = SprinklerCollection(CONFIG.get("sprinklers"), pump)
 sprinkler_resource = SprinklerResource(sprinkler)
 api.add_route("/sprinkler/{name}", sprinkler_resource)
 
-power_input = Input(CONFIG.get("power").get("input").get("channel"))
+power_input_channel = CONFIG.get("power").get("input").get("channel")
 power_output = Relay(CONFIG.get("power").get("output").get("channel"))
-power = Power(power_input, power_output)
+power = Power(power_input_channel, power_output)
 power_resource = PowerResource(power, pump)
 api.add_route("/power", power_resource)
 
