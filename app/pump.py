@@ -36,7 +36,9 @@ class Pump(Input):
             timedelta(minutes=1)
         self.increments = self.increments + 1
 
-    def clear_running(self):
+    def clear_running(self, channel=None):
+        if channel:
+            print("Detected change on channel {}".format(channel))
         self.expected_running = False
         self.running_sprinkler_name = None
         self.estimated_end_time = None
