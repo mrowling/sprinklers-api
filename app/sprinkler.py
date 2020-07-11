@@ -1,6 +1,9 @@
 import json
+import sys
 from time import sleep
 from multiprocessing import Process, Value
+from threading import Thread, Lock
+
 import falcon
 import traceback
 
@@ -14,19 +17,6 @@ class Sprinkler():
         self._triggering = False
         self._sleep_duration = 1
 
-    @property
-    def _triggering(self):
-        with self._triggering_value.get_lock():
-            return bool(self._triggering_value.value)
-
-    @_triggering.setter
-    def _triggering(self, val):
-        try:
-            with self._triggering_value.get_lock():
-                self._triggering_value.value = val
-        except AttributeError:
-            self._triggering_value = Value("i", val)
-
     def _trigger(self):
         try:
             self._triggering = True
@@ -35,14 +25,14 @@ class Sprinkler():
             self.relay.off()
         finally:
             self._triggering = False
+            sys.stdout.flush()
 
     def trigger(self):
         if not self._triggering:
-            process = Process(
+            thread = Thread(
                 target=self._trigger,
-                daemon=True
             )
-            process.start()
+            thread.start()
         else:
             raise Exception("Already triggering")
 

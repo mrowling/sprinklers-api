@@ -1,4 +1,5 @@
 import json
+import sys
 import falcon
 from time import sleep
 from threading import Thread
@@ -11,6 +12,7 @@ from .pump import Pump
 class Power(Input):
     def __init__(self, input_channel, output: Relay):
         self.output = output
+        self._triggering = False
         super().__init__(input_channel)
 
     def on(self):
@@ -20,16 +22,24 @@ class Power(Input):
         return self.output.off()
 
     def _pulse(self, duration):
-        self.output.on()
-        sleep(duration)
-        self.output.off()
+        try:
+            self._triggering = True
+            self.output.on()
+            sleep(duration)
+            self.output.off()
+        finally:
+            self._triggering = False
+            sys.stdout.flush()
 
     def pulse(self, duration=1):
-        thread = Thread(
-            target=self._pulse,
-            args=(duration,)
-        )
-        thread.start()
+        if not self._triggering:
+            thread = Thread(
+                target=self._pulse,
+                args=(duration,)
+            )
+            thread.start()
+        else:
+            raise Exception("Already triggering")
 
 
 class PowerResource():  # pylint: disable=too-few-public-methods
