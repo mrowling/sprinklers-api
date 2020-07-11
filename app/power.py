@@ -15,31 +15,8 @@ class Power(Input):
         self._triggering = False
         super().__init__(input_channel)
 
-    def on(self):
-        return self.output.on()
-
-    def off(self):
-        return self.output.off()
-
-    def _pulse(self, duration):
-        try:
-            self._triggering = True
-            self.output.on()
-            sleep(duration)
-            self.output.off()
-        finally:
-            self._triggering = False
-            sys.stdout.flush()
-
     def pulse(self, duration=1):
-        if not self._triggering:
-            thread = Thread(
-                target=self._pulse,
-                args=(duration,)
-            )
-            thread.start()
-        else:
-            raise Exception("Already triggering")
+        self.output.pulse(duration)
 
 
 class PowerResource():  # pylint: disable=too-few-public-methods

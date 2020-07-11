@@ -1,5 +1,8 @@
 from smbus2 import SMBus
 from .gpio import gpio
+from time import sleep
+from threading import Thread
+import sys
 
 ON = 255
 OFF = 0
@@ -32,3 +35,23 @@ class Relay():
     def lock(self, value):
         if self._lock is not None:
             self._lock = value
+
+    def _pulse(self, duration):
+        try:
+            self.lock = True
+            self.on()
+            sleep(duration)
+            self.off()
+        finally:
+            self.lock = False
+            sys.stdout.flush()
+
+    def pulse(self, duration):
+        if not self.lock:
+            thread = Thread(
+                target=self._pulse,
+                args=(duration,)
+            )
+            thread.start()
+        else:
+            raise Exception("Relay Locked")
