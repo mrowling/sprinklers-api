@@ -18,15 +18,7 @@ class Pump(Input):
     @property
     def running(self):
         # If it's on, it's defintely on
-        if self.state:
-            return True
-        if self.expected_running:
-            now = datetime.now()
-            if self.estimated_end_time > now:
-                return True
-            self.clear_running()
-            return self.running
-        return False
+        return self.state
 
     def safe_to_trigger(self, name):
         if not self.expected_running:
