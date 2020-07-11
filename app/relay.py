@@ -1,8 +1,7 @@
-from smbus2 import SMBus
-from .gpio import gpio
 from time import sleep
-from threading import Thread
 import sys
+from threading import Thread
+from smbus2 import SMBus
 
 ON = 255
 OFF = 0

@@ -9,7 +9,6 @@ from .sprinkler import SprinklerResource, SprinklerCollection
 from .sequence import SequenceResource
 from .pump import PumpResource, Pump
 from .relay import Relay
-from .input import Input
 from .power import PowerResource, Power
 
 
@@ -33,11 +32,11 @@ sprinkler_resource = SprinklerResource(sprinkler)
 api.add_route("/sprinkler/{name}", sprinkler_resource)
 
 power_input_channel = CONFIG.get("power").get("input").get("channel")
-power_lock = False
+POWER_LOCK = False
 power_output = Relay(
     CONFIG.get("power").get("output").get("device"),
     CONFIG.get("power").get("output").get("channel"),
-    power_lock)
+    POWER_LOCK)
 power = Power(power_input_channel, power_output)
 power_resource = PowerResource(power, pump)
 api.add_route("/power", power_resource)

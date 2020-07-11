@@ -1,8 +1,5 @@
 import json
-import sys
 import falcon
-from time import sleep
-from threading import Thread
 
 from .relay import Relay
 from .input import Input

@@ -6,7 +6,7 @@ from .relay import Relay
 from .pump import Pump
 
 
-class Sprinkler():
+class Sprinkler():  # pylint: disable=too-few-public-methods
     def __init__(self, device, channel, lock):
         self.relay = Relay(device, channel, lock)
         self._triggering = False
